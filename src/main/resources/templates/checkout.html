@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ShinyMart - Checkout</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f8f4;
+        }
+
+
+        header {
+
+            background: #2e7d32;
+
+            color: white;
+
+            padding: 20px;
+
+            text-align: center;
+        }
+
+
+        header h1 {
+
+            margin: 0;
+        }
+
+
+        header p {
+
+            margin: 5px;
+        }
+
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1000px;
+
+            margin: 30px auto;
+        }
+
+
+        .checkout-container {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        .box {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.1);
+        }
+
+
+        .box h2 {
+
+            color: #2e7d32;
+
+            margin-top: 0;
+        }
+
+
+        .input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            margin:
+                8px 0 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        .input:focus {
+
+            border-color: #2e7d32;
+        }
+
+
+        textarea.input {
+
+            height: 100px;
+
+            resize: none;
+        }
+
+
+        .order-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 12px 0;
+
+            border-bottom:
+                1px solid #ddd;
+        }
+
+
+        .total {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-top: 20px;
+
+            padding-top: 15px;
+
+            border-top:
+                2px solid #2e7d32;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            color: #2e7d32;
+        }
+
+
+        .payment-box {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #f1f8e9;
+
+            border-radius: 8px;
+        }
+
+
+        .payment-box label {
+
+            display: block;
+
+            margin: 8px 0;
+
+            cursor: pointer;
+        }
+
+
+        .place-order {
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            background: #2e7d32;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            cursor: pointer;
+        }
+
+
+        .place-order:hover {
+
+            background: #1b5e20;
+        }
+
+
+        .back-btn {
+
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 12px;
+
+            background: #757575;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .checkout-container {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>
+            🌿 ShinyMart
+        </h1>
+
+        <p>
+            Secure Checkout
+        </p>
+
+    </header>
+
+
+
+    <div class="container">
+
+
+        <div class="checkout-container">
+
+
+            <!-- CUSTOMER DETAILS -->
+
+            <div class="box">
+
+
+                <h2>
+                    👤 Customer Details
+                </h2>
+
+
+                <form
+                    id="checkoutForm"
+                    onsubmit="placeOrder(event)">
+
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        class="input"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="mobile"
+                        class="input"
+                        placeholder="Enter 10 digit mobile number"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+
+                    <label>
+                        Delivery Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        class="input"
+                        placeholder="Enter complete delivery address"
+                        required
+                    ></textarea>
+
+
+                    <label>
+                        Village / Town
+                    </label>
+
+                    <input
+                        type="text"
+                        id="village"
+                        class="input"
+                        placeholder="Enter village or town"
+                        required
+                    >
+
+
+                    <label>
+                        Pincode
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pincode"
+                        class="input"
+                        placeholder="Enter 6 digit pincode"
+                        pattern="[0-9]{6}"
+                        required
+                    >
+
+
+
+                    <!-- PAYMENT -->
+
+                    <div class="payment-box">
+
+                        <strong>
+                            💳 Payment Method
+                        </strong>
+
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="Cash on Delivery"
+                                checked
+                            >
+
+                            Cash on Delivery
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="UPI"
+                            >
+
+                            UPI
+
+                        </label>
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="place-order">
+
+                        ✅ Place Order
+
+                    </button>
+
+
+                </form>
+
+
+
+                <button
+                    class="back-btn"
+                    onclick="goBack()">
+
+                    ← Back to Cart
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="box">
+
+
+                <h2>
+                    📦 Order Summary
+                </h2>
+
+
+                <div id="orderItems">
+                </div>
+
+
+                <div class="total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span id="totalAmount">
+                        ₹0
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+        displayOrder();
+
+
+
+        // =========================
+        // DISPLAY ORDER
+        // =========================
+
+        function displayOrder() {
+
+
+            let orderItems =
+                document.getElementById(
+                    "orderItems"
+                );
+
+
+            let total = 0;
+
+
+            orderItems.innerHTML = "";
+
+
+            if (cart.length === 0) {
+
+
+                orderItems.innerHTML = `
+
+                    <div class="empty">
+
+                        <div style="font-size:50px;">
+                            🛒
+                        </div>
+
+                        <h3>
+                            Your cart is empty
+                        </h3>
+
+                        <p>
+                            Please add products
+                            before checkout.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                document.getElementById(
+                    "totalAmount"
+                ).innerText = "₹0";
+
+
+                return;
+
+            }
+
+
+            cart.forEach(
+                function(product) {
+
+
+                    let itemTotal =
+                        product.price *
+                        product.quantity;
+
+
+                    total += itemTotal;
+
+
+                    orderItems.innerHTML += `
+
+                        <div class="order-item">
+
+                            <span>
+
+                                ${product.name}
+
+                                × ${product.quantity}
+
+                            </span>
+
+
+                            <strong>
+
+                                ₹${itemTotal}
+
+                            </strong>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            document.getElementById(
+                "totalAmount"
+            ).innerText =
+                "₹" + total;
+
+        }
+
+
+
+        // =========================
+        // PLACE ORDER
+        // =========================
+
+        function placeOrder(event) {
+
+
+            event.preventDefault();
+
+
+            if (cart.length === 0) {
+
+
+                alert(
+                    "Your cart is empty! 🛒"
+                );
+
+
+                return;
+
+            }
+
+
+            let name =
+                document.getElementById(
+                    "name"
+                ).value;
+
+
+            let mobile =
+                document.getElementById(
+                    "mobile"
+                ).value;
+
+
+            let address =
+                document.getElementById(
+                    "address"
+                ).value;
+
+
+            let village =
+                document.getElementById(
+                    "village"
+                ).value;
+
+
+            let pincode =
+                document.getElementById(
+                    "pincode"
+                ).value;
+
+
+            let payment =
+                document.querySelector(
+                    'input[name="payment"]:checked'
+                ).value;
+
+
+
+            // CUSTOMER DETAILS
+
+            let customer = {
+
+                name: name,
+
+                mobile: mobile,
+
+                address: address,
+
+                village: village,
+
+                pincode: pincode,
+
+                payment: payment
+
+            };
+
+
+            localStorage.setItem(
+
+                "customer",
+
+                JSON.stringify(customer)
+
+            );
+
+
+
+            // ORDER ID
+
+            let orderId =
+                "SM" + Date.now();
+
+
+            localStorage.setItem(
+
+                "orderId",
+
+                orderId
+
+            );
+
+
+
+            // GO TO SUCCESS PAGE
+
+            window.location.href =
+                "/order-success";
+
+        }
+
+
+
+        // =========================
+        // BACK TO CART
+        // =========================
+
+        function goBack() {
+
+            window.location.href =
+                "/cart";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

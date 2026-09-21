@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ShinyMart - View Cart</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f8f4;
+        }
+
+
+        header {
+
+            background: #2e7d32;
+
+            color: white;
+
+            padding: 20px;
+
+            text-align: center;
+        }
+
+
+        header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+        }
+
+
+        header p {
+
+            margin: 5px;
+        }
+
+
+        .container {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            margin: 30px auto;
+        }
+
+
+        .cart-box {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.1);
+        }
+
+
+        .cart-title {
+
+            color: #2e7d32;
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .cart-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 18px;
+
+            border-bottom: 1px solid #ddd;
+
+            gap: 15px;
+        }
+
+
+        .item-info {
+
+            flex: 1;
+        }
+
+
+        .item-info h3 {
+
+            margin:
+                0 0 5px 0;
+
+            color: #333;
+        }
+
+
+        .item-info p {
+
+            margin: 0;
+
+            color: #666;
+        }
+
+
+        .quantity {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .quantity button {
+
+            width: 32px;
+
+            height: 32px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #2e7d32;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+        }
+
+
+        .quantity button:hover {
+
+            background: #1b5e20;
+        }
+
+
+        .quantity span {
+
+            font-weight: bold;
+
+            min-width: 20px;
+
+            text-align: center;
+        }
+
+
+        .item-price {
+
+            min-width: 80px;
+
+            text-align: right;
+
+            font-weight: bold;
+
+            color: #2e7d32;
+        }
+
+
+        .total-box {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #f1f8e9;
+
+            border-radius: 10px;
+
+            text-align: right;
+        }
+
+
+        .total-label {
+
+            font-size: 18px;
+
+            color: #555;
+        }
+
+
+        .total {
+
+            font-size: 26px;
+
+            font-weight: bold;
+
+            color: #2e7d32;
+        }
+
+
+        .buttons {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .btn {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        .continue-btn {
+
+            background: #757575;
+
+            color: white;
+        }
+
+
+        .clear-btn {
+
+            background: #c62828;
+
+            color: white;
+        }
+
+
+        .checkout-btn {
+
+            background: #2e7d32;
+
+            color: white;
+        }
+
+
+        .btn:hover {
+
+            opacity: 0.9;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #777;
+        }
+
+
+        .empty-icon {
+
+            font-size: 60px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .cart-item {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .item-price {
+
+                text-align: left;
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header>
+
+        <h1>
+            🌿 ShinyMart
+        </h1>
+
+        <p>
+            Your Shopping Cart 🛒
+        </p>
+
+    </header>
+
+
+
+    <div class="container">
+
+
+        <div class="cart-box">
+
+
+            <h2 class="cart-title">
+                🛒 View Cart
+            </h2>
+
+
+            <div id="cartItems"></div>
+
+
+            <div class="total-box">
+
+                <span class="total-label">
+                    Total Amount:
+                </span>
+
+                <span
+                    class="total"
+                    id="totalAmount">
+
+                    ₹0
+
+                </span>
+
+            </div>
+
+
+            <div class="buttons">
+
+
+                <button
+                    class="btn continue-btn"
+                    onclick="continueShopping()">
+
+                    ← Continue Shopping
+
+                </button>
+
+
+                <button
+                    class="btn clear-btn"
+                    onclick="clearCart()">
+
+                    🗑 Clear Cart
+
+                </button>
+
+
+                <button
+                    class="btn checkout-btn"
+                    onclick="goToCheckout()">
+
+                    Proceed to Checkout →
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+        displayCart();
+
+
+
+        // =========================
+        // DISPLAY CART
+        // =========================
+
+        function displayCart() {
+
+
+            let cartItems =
+                document.getElementById(
+                    "cartItems"
+                );
+
+
+            let totalAmount = 0;
+
+
+            cartItems.innerHTML = "";
+
+
+            if (cart.length === 0) {
+
+
+                cartItems.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🛒
+                        </div>
+
+                        <h2>
+                            Your cart is empty
+                        </h2>
+
+                        <p>
+                            Add some products
+                            to your cart.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                document.getElementById(
+                    "totalAmount"
+                ).innerText = "₹0";
+
+
+                return;
+
+            }
+
+
+            cart.forEach(
+                function(product, index) {
+
+
+                    let productTotal =
+                        product.price *
+                        product.quantity;
+
+
+                    totalAmount +=
+                        productTotal;
+
+
+                    cartItems.innerHTML += `
+
+                        <div class="cart-item">
+
+                            <div class="item-info">
+
+                                <h3>
+                                    ${product.name}
+                                </h3>
+
+                                <p>
+                                    ₹${product.price}
+                                    each
+                                </p>
+
+                            </div>
+
+
+                            <div class="quantity">
+
+                                <button
+                                    onclick="decreaseQuantity(${index})">
+
+                                    −
+
+                                </button>
+
+
+                                <span>
+
+                                    ${product.quantity}
+
+                                </span>
+
+
+                                <button
+                                    onclick="increaseQuantity(${index})">
+
+                                    +
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="item-price">
+
+                                ₹${productTotal}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            document.getElementById(
+                "totalAmount"
+            ).innerText =
+                "₹" + totalAmount;
+
+        }
+
+
+
+        // =========================
+        // INCREASE QUANTITY
+        // =========================
+
+        function increaseQuantity(index) {
+
+            cart[index].quantity++;
+
+            saveCart();
+
+        }
+
+
+
+        // =========================
+        // DECREASE QUANTITY
+        // =========================
+
+        function decreaseQuantity(index) {
+
+
+            if (
+                cart[index].quantity > 1
+            ) {
+
+                cart[index].quantity--;
+
+            }
+
+            else {
+
+                cart.splice(index, 1);
+
+            }
+
+
+            saveCart();
+
+        }
+
+
+
+        // =========================
+        // SAVE CART
+        // =========================
+
+        function saveCart() {
+
+
+            localStorage.setItem(
+
+                "cart",
+
+                JSON.stringify(cart)
+
+            );
+
+
+            displayCart();
+
+        }
+
+
+
+        // =========================
+        // CLEAR CART
+        // =========================
+
+        function clearCart() {
+
+
+            if (
+                confirm(
+                    "Are you sure you want to clear the cart?"
+                )
+            ) {
+
+
+                cart = [];
+
+
+                localStorage.removeItem(
+                    "cart"
+                );
+
+
+                displayCart();
+
+            }
+
+        }
+
+
+
+        // =========================
+        // CONTINUE SHOPPING
+        // =========================
+
+        function continueShopping() {
+
+            window.location.href =
+                "/products";
+
+        }
+
+
+
+        // =========================
+        // CHECKOUT
+        // =========================
+
+        function goToCheckout() {
+
+
+            if (cart.length === 0) {
+
+
+                alert(
+                    "Your cart is empty! 🛒"
+                );
+
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "/checkout";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

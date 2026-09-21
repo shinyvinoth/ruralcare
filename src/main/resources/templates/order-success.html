@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ShinyMart - Order Confirmed</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f8f4;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+
+        .success-box {
+
+            background: white;
+
+            width: 90%;
+
+            max-width: 550px;
+
+            padding: 45px 30px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.12);
+        }
+
+
+        .success-icon {
+
+            font-size: 70px;
+        }
+
+
+        h1 {
+
+            color: #2e7d32;
+
+            margin-bottom: 10px;
+        }
+
+
+        .message {
+
+            color: #555;
+
+            line-height: 1.6;
+        }
+
+
+        .order-id {
+
+            margin: 20px 0;
+
+            padding: 15px;
+
+            background: #f1f8e9;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            color: #33691e;
+        }
+
+
+        .details {
+
+            text-align: left;
+
+            background: #fafafa;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            line-height: 1.7;
+        }
+
+
+        .home-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background: #2e7d32;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+
+        .home-btn:hover {
+
+            background: #1b5e20;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="success-box">
+
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+
+        <h1>
+            Order Confirmed!
+        </h1>
+
+
+        <p class="message">
+
+            Thank you for shopping with
+            <b>ShinyMart</b>.
+
+            <br>
+
+            Your essential products will be
+            delivered to your location.
+
+        </p>
+
+
+
+        <!-- ORDER ID -->
+
+        <div class="order-id">
+
+            Order ID:
+
+            <span id="orderId">
+            </span>
+
+        </div>
+
+
+
+        <!-- CUSTOMER DETAILS -->
+
+        <div
+            class="details"
+            id="customerDetails">
+
+        </div>
+
+
+
+        <button
+            class="home-btn"
+            onclick="goHome()">
+
+            🏠 Continue Shopping
+
+        </button>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // =========================
+        // GET ORDER ID
+        // =========================
+
+        let orderId =
+            localStorage.getItem(
+                "orderId"
+            );
+
+
+        document.getElementById(
+            "orderId"
+        ).innerText =
+            orderId || "SM000000";
+
+
+
+        // =========================
+        // GET CUSTOMER DETAILS
+        // =========================
+
+        let customer =
+            JSON.parse(
+                localStorage.getItem(
+                    "customer"
+                )
+            );
+
+
+        if (customer) {
+
+
+            document.getElementById(
+                "customerDetails"
+            ).innerHTML = `
+
+                <strong>
+                    👤 Customer:
+                </strong>
+
+                ${customer.name}
+
+                <br>
+
+
+                <strong>
+                    📱 Mobile:
+                </strong>
+
+                ${customer.mobile}
+
+                <br>
+
+
+                <strong>
+                    📍 Village/Town:
+                </strong>
+
+                ${customer.village}
+
+                <br>
+
+
+                <strong>
+                    🏠 Address:
+                </strong>
+
+                ${customer.address}
+
+                <br>
+
+
+                <strong>
+                    📮 Pincode:
+                </strong>
+
+                ${customer.pincode}
+
+                <br>
+
+
+                <strong>
+                    💳 Payment:
+                </strong>
+
+                ${customer.payment}
+
+            `;
+
+        }
+
+
+
+        // =========================
+        // CLEAR CART
+        // =========================
+
+        localStorage.removeItem(
+            "cart"
+        );
+
+
+
+        // =========================
+        // CONTINUE SHOPPING
+        // =========================
+
+        function goHome() {
+
+            window.location.href =
+                "/products";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
